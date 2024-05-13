@@ -1,0 +1,24 @@
+{
+	"name": "discord-best-of-backend",
+	"version": "1.0.0",
+	"description": "Backend for my discord bot. Reads a channel history and summarizes the most reacted messages in a given period.",
+	"scripts": {
+		"start": "wrangler dev",
+		"register": "node src/register.js",
+		"publish": "wrangler deploy"
+	},
+	"devDependencies": {
+		"@cloudflare/workers-types": "^4.20240512.0",
+		"@types/node": "^20.12.7",
+		"dotenv": "^16.4.5",
+		"prettier": "^3.2.5",
+		"typescript": "^5.4.5",
+		"wrangler": "^3.52.0"
+	},
+	"license": "MIT",
+	"author": "Alex Pernot",
+	"dependencies": {
+		"discord-interactions": "^3.4.0",
+		"itty-router": "^5.0.17"
+	}
+}

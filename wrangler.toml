@@ -1,0 +1,8 @@
+name = "discord-best-of-chan"
+main = "./src/index.ts"
+compatibility_date="2024-04-28"
+
+# [secrets]
+# DISCORD_TOKEN
+# DISCORD_PUBLIC_KEY
+# DISCORD_APPLICATION_ID
