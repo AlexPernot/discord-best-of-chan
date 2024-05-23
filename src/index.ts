@@ -58,11 +58,11 @@ router.post("/", async (request, env) => {
   if (interaction.type === InteractionType.APPLICATION_COMMAND) {
     switch (interaction.data.name.toLowerCase()) {
       case BESTOF_COMMAND.name.toLowerCase(): {
-        handleInteraction(interaction);
+        const formattedContent = await handleInteraction(interaction, env);
         return new JsonResponse({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
           data: {
-            content: "oui",
+            content: formattedContent,
           },
         });
       }

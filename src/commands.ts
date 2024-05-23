@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "./types";
+import { Discord } from "./types";
 
 export const BESTOF_COMMAND = {
   name: "best-of",
@@ -7,31 +7,33 @@ export const BESTOF_COMMAND = {
   description: "Ranks a channel's most reacted messages on a given period.",
   options: [
     {
-      // TODO : restrict channels
       name: "input_channel",
       description: "The channel where the messages will be read",
-      type: ApplicationCommandOptionType.CHANNEL,
+      type: Discord.ApplicationCommandOptionType.CHANNEL,
       required: true,
+      // Only allow public channels & threads
+      channel_types: [0, 11],
     },
     {
       name: "after",
       description:
         "Ranks messages after this date (format: YYYY-MM-DD HH:MM:SS)",
-      type: ApplicationCommandOptionType.STRING,
+      type: Discord.ApplicationCommandOptionType.STRING,
       required: true,
     },
     {
       name: "before",
       description:
         "Ranks messages before this date (format: YYYY-MM-DD HH:MM:SS). Defaults to current date",
-      type: ApplicationCommandOptionType.STRING,
+      type: Discord.ApplicationCommandOptionType.STRING,
     },
     {
-      // TODO : restrict channels
       name: "output_channel",
       description:
         "The channel where the ranking will be posted. Defaults to the channel where the command is used",
-      type: ApplicationCommandOptionType.CHANNEL,
+      type: Discord.ApplicationCommandOptionType.CHANNEL,
+      // Only allow public channels
+      channel_types: [0],
     },
   ],
 };
