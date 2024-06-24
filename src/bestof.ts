@@ -106,7 +106,6 @@ function formatMessages(interaction: Interaction, messages: MessageMapItem[]) {
   return str;
 }
 
-// TODO : implémenter #output channel si possible ?
 async function* fetchNextMessageBatch(
   env: Env,
   channelId: string,
@@ -122,11 +121,6 @@ async function* fetchNextMessageBatch(
         env,
         `/channels/${channelId}/messages?limit=100&after=${after}`,
       )) as Discord.Message[];
-
-      if (beforeSnowflake)
-        console.log(
-          new Date(Number(getTimestampFromSnowflake(beforeSnowflake))),
-        );
 
       const filteredRes = beforeSnowflake
         ? res.filter((msg) => Number(msg.id) < Number(beforeSnowflake))

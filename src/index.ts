@@ -9,8 +9,9 @@ import {
   verifyKey,
 } from "discord-interactions";
 import { BESTOF_COMMAND } from "./commands.js";
-import { Env } from "./types";
+import { Discord, Env } from "./types";
 import { handleInteraction } from "./bestof";
+import { api } from "./api";
 
 class JsonResponse extends Response {
   constructor(body: Object, init?: ResponseInit) {
@@ -39,10 +40,11 @@ router.get("/", (request, env) => {
  * https://discord.com/developers/docs/interactions/receiving-and-responding#interaction-object
  */
 router.post("/", async (request, env) => {
-  const { isValid, interaction } = await server.verifyDiscordRequest(
-    request,
-    env,
-  );
+  const {
+    isValid,
+    interaction,
+  }: { isValid: boolean; interaction?: Discord.Interaction } =
+    await server.verifyDiscordRequest(request, env);
   if (!isValid || !interaction) {
     return new Response("Bad request signature.", { status: 401 });
   }
@@ -59,6 +61,27 @@ router.post("/", async (request, env) => {
     switch (interaction.data.name.toLowerCase()) {
       case BESTOF_COMMAND.name.toLowerCase(): {
         const formattedContent = await handleInteraction(interaction, env);
+
+        const outputChannelId = interaction.data.options?.find(
+          (option) => option.name === "output_channel",
+        )?.value;
+
+        if (outputChannelId) {
+          const res = await api(
+            env,
+            `/channels/${outputChannelId}/messages`,
+            "POST",
+            {
+              content: formattedContent,
+            },
+          );
+          console.log(res);
+
+          return new JsonResponse({
+            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+          });
+        }
+
         return new JsonResponse({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
           data: {
